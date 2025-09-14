@@ -4,10 +4,16 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+// Import database connection
+const connectDB = require('./config/database');
+
 // Import routes
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/items');
 const userRoutes = require('./routes/users');
+
+// Connect to database
+connectDB();
 
 const app = express();
 
@@ -27,14 +33,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
   });
 }
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/findit', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.log('MongoDB connection error:', err));
 
 const PORT = process.env.PORT || 5000;
 

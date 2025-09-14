@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: findit-app
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://mkaium488_db_user:tGGbDKQfJ8oGb2Li@cluster0.z9wmvoj.mongodb.net/findit?retryWrites=true&w.majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: n9v7!m2#Rz8@uLp0$kQ1&xD4^bS6*tE345
+      - key: PORT
+        value: 5000

@@ -1,0 +1,16 @@
+{
+  "name": "findit-app",
+  "version": "1.0.0",
+  "description": "FindIt Lost & Found Application",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev"
+  },
+  "keywords": ["lost", "found", "tracker"],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

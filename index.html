@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt – Lost & Found Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen (Initially visible) -->
+    <div id="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h2>Welcome to FindIt</h2>
+                <p>Please select your login type</p>
+            </div>
+
+            <div class="user-type-selector">
+                <button class="user-type-btn active" data-type="user">User</button>
+                <button class="user-type-btn" data-type="admin">Admin</button>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-block">Login</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 20px;">
+                Don't have an account? <a href="#" id="register-toggle">Register here</a>
+            </p>
+        </div>
+    </div>
+    <div id="register-screen" style="display: none;">
+  <div class="login-container">
+    <div class="login-header">
+      <div class="login-logo">
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <h2>Create a New Account</h2>
+      <p>Register to report and find items</p>
+    </div>
+    <form id="register-form">
+      <div class="form-group">
+        <label for="register-name">Name</label>
+        <input type="text" id="register-name" required placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" required placeholder="Enter a password">
+      </div>
+      <div class="form-group">
+        <label for="register-confirm-password">Confirm Password</label>
+        <input type="password" id="register-confirm-password" required placeholder="Confirm your password">
+      </div>
+      <button type="submit" class="btn btn-block">Register</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+      Already have an account? <a href="#" id="login-toggle">Login here</a>
+    </p>
+  </div>
+</div>
+
+    <!-- Main Application (Initially hidden) -->
+    <div id="app-container" style="display: none;">
+        <header>
+            <div class="user-profile">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <span id="user-name">User</span>
+            </div>
+            
+            <div>
+                <h1><i class="fas fa-search"></i> FindIt</h1>
+                <p>Reuniting lost items with their owners</p>
+            </div>
+            
+            <button class="admin-login-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </header>
+
+        <div class="container">
+            <!-- Admin Panel (Initially hidden) -->
+            <div id="admin-panel" class="admin-panel">
+                <div class="admin-header">
+                    <h2><i class="fas fa-cog"></i> Admin Dashboard</h2>
+                    <button class="btn btn-secondary" id="switch-to-user">
+                        <i class="fas fa-user"></i> User View
+                    </button>
+                </div>
+
+                <div class="admin-stats" id="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Total Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Lost Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Found Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Resolved Cases</div>
+                    </div>
+                </div>
+
+                <h3>Recent Reports</h3>
+                <div class="table-container">
+                  <table class="admin-table" id="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+            <!-- User Interface -->
+            <div id="user-interface">
+                <div class="main-menu">
+                    <div class="menu-btn" id="report-lost-btn">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Report Lost Item</h3>
+                        <p>Can't find something? Report it here</p>
+                    </div>
+                    
+                    <div class="menu-btn" id="report-found-btn">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Report Found Item</h3>
+                        <p>Found something that isn't yours? Report it here</p>
+                    </div>
+                    
+                    <div class="menu-btn" id="browse-btn">
+                        <i class="fas fa-list"></i>
+                        <h3>Browse Listings</h3>
+                        <p>View all lost and found items</p>
+                    </div>
+                    
+                    <div class="menu-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                        <h3>Search Items</h3>
+                        <p>Search for specific lost or found items</p>
+                    </div>
+                </div>
+
+                <div class="search-container" id="search-container" style="display: none;">
+                    <h2>Search Lost & Found Items</h2>
+                    <form class="search-form" id="search-form">
+                        <input type="text" class="search-input" placeholder="Enter item name, description, or location..." id="search-input">
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+                </div>
+
+                <div class="filter-options" id="filter-options" style="display: none;">
+                    <button class="filter-btn active" data-filter="all">All Items</button>
+                    <button class="filter-btn" data-filter="lost">Lost Items</button>
+                    <button class="filter-btn" data-filter="found">Found Items</button>
+                </div>
+
+                <div id="listings-container">
+                    <div class="no-listings" id="no-listings">
+                        <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px; color: #ccc;"></i>
+                        <h3>No listings to show</h3>
+                        <p>Report a lost or found item, or browse existing listings to see items here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Reporting Lost Item -->
+    <div id="lost-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-exclamation-circle"></i> Report Lost Item</h2>
+            <form id="lost-form">
+                <div class="form-group">
+                    <label for="lost-item-name">Item Name</label>
+                    <input type="text" id="lost-item-name" required placeholder="e.g., Black iPhone 12">
+                </div>
+                <div class="form-group">
+                    <label for="lost-category">Category</label>
+                    <select id="lost-category" required>
+                        <option value="">Select a category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="documents">Documents</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lost-description">Description</label>
+                    <textarea id="lost-description" required placeholder="Provide details about the item, when and where you lost it, etc."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="lost-location">Last Known Location</label>
+                    <input type="text" id="lost-location" required placeholder="e.g., Central Library, Room 203">
+                </div>
+                <div class="form-group">
+                    <label for="lost-date">Date Lost</label>
+                    <input type="date" id="lost-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="lost-contact">Contact Information</label>
+                    <input type="text" id="lost-contact" required placeholder="Email or phone number">
+                </div>
+                <button type="submit" class="btn btn-block">Report Lost Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Reporting Found Item -->
+    <div id="found-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-check-circle"></i> Report Found Item</h2>
+            <form id="found-form">
+                <div class="form-group">
+                    <label for="found-item-name">Item Name</label>
+                    <input type="text" id="found-item-name" required placeholder="e.g., Blue Wallet">
+                </div>
+                <div class="form-group">
+                    <label for="found-category">Category</label>
+                    <select id="found-category" required>
+                        <option value="">Select a category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="documents">Documents</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="found-description">Description</label>
+                    <textarea id="found-description" required placeholder="Provide details about the item, where you found it, etc."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="found-location">Found Location</label>
+                    <input type="text" id="found-location" required placeholder="e.g., Main Building, 2nd Floor">
+                </div>
+                <div class="form-group">
+                    <label for="found-date">Date Found</label>
+                    <input type="date" id="found-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="found-contact">Your Contact Information</label>
+                    <input type="text" id="found-contact" required placeholder="Email or phone number">
+                </div>
+                <button type="submit" class="btn btn-block">Report Found Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alert-container"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
